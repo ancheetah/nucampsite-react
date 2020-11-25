@@ -23,7 +23,7 @@ class CampsiteInfo extends Component {
         );
     }
 
-    //see render() in directorycomponent.js. SHould we render components there instead?
+    //Note: see render() in directorycomponent.js. Should we render components in the render() method instead?
     renderComments(comments) {
         if (comments) {
             return (
