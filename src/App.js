@@ -1,5 +1,6 @@
 // import logo from './logo.svg';
 import React, { Component } from 'react';
+import { BrowserRouter } from 'react-router-dom';
 // import { Navbar, NavbarBrand } from 'reactstrap';
 // import Directory from './components/DirectoryComponent';
 // import { CAMPSITES } from './shared/campsites';
@@ -16,9 +17,11 @@ class App extends Component {
   // }
   render() {
     return (
-      <div className="App">
-          <Main />
-      </div>
+      <BrowserRouter>
+        <div className="App">
+            <Main />
+        </div>
+      </BrowserRouter>
   );
   }
 }
