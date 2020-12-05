@@ -7,6 +7,7 @@ import CampsiteInfo from './CampsiteInfoComponent';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import Contact from './ContactComponent';
+import About from './AboutComponent';
 import { CAMPSITES } from '../shared/campsites';
 import { COMMENTS } from '../shared/comments';
 import { PARTNERS } from '../shared/partners';
@@ -23,10 +24,6 @@ class Main extends Component {
             promotions: PROMOTIONS
         };
     }
-
-    // onCampsiteSelect(campsiteId) {
-    //     this.setState({selectedCampsite: campsiteId});
-    // }
 
     render() {
 
@@ -57,6 +54,7 @@ class Main extends Component {
                     <Route exact path='/directory' render={() => <Directory campsites={this.state.campsites} />} />
                     <Route path='/directory/:campsiteId' component={CampsiteWithId} />
                     <Route exact path='/contactus' component={Contact} />
+                    <Route exact path='/aboutus' component={About} />
                     <Redirect to='/home' />
                 </Switch>
                 <Footer />
