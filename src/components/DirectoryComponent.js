@@ -42,6 +42,5 @@ function Directory(props) {
         </div>
     );
 }
-// }
 
 export default Directory;
