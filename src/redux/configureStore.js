@@ -1,5 +1,4 @@
 import { createStore, combineReducers } from 'redux';
-//import { Reducer, initialState } from './reducer';
 import { Campsites } from './campsites';
 import { Comments } from './comments';
 import { Partners } from './partners';
@@ -21,3 +20,8 @@ export const ConfigureStore = () => {
     );
     return store;
 };
+
+// Splitting A Reducer
+//import { Reducer, initialState } from './reducer';
+//We can remove the reducer.js file because we've now split the data
+//into separate files, each with it's own reducer defined
