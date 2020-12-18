@@ -83,10 +83,8 @@ class CommentForm extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {  //set inital states here
-            rating: '',
-            name: '',
-            comment: ''
+        this.state = {  // only set state of local methods defined in the component
+            isModalOpen: false
         };
 
         this.toggleModal = this.toggleModal.bind(this);
@@ -101,9 +99,17 @@ class CommentForm extends Component {
 
     handleSubmit(values) {
         this.toggleModal();
-        this.props.addComment(this.props.campsiteID, values.rating, values.author, values.text);
-        // console.log('Current state is: ' + JSON.stringify(values));
-        // alert('Current state is: ' + JSON.stringify(values));
+
+        // To make the ADD_COMMENT action work, we can now pass in
+        // the comment form input values that are collected when the
+        // user clicks the submit button. This action will display the new
+        // comment on the page (temporarily for now) by appending it to the
+        // COMMENTS array
+        
+        // Why does "this" refer to an object {campsiteId, addComment} ???
+        console.log("in handleSubmit: ", this.props);
+        this.props.addComment(this.props.campsiteId, values.rating, values.author, values.text);
+
     }
 
     render() {

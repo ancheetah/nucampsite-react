@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import Home from './HomeComponent';
+
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
+
+import Home from './HomeComponent';
 import Directory from './DirectoryComponent';
 import CampsiteInfo from './CampsiteInfoComponent';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import Contact from './ContactComponent';
 import About from './AboutComponent';
+
+import { connect } from 'react-redux';
 import {addComment} from '../redux/ActionCreators';
 
 // Move this data to reducer.js
@@ -25,8 +28,11 @@ const mapStateToProps = state => {
     };
 };
 
+// Implement the ADD_COMMENT action with mapDispatchToProps then pass it to connect() at end of module
 const mapDispatchToProps = {
-    addComment: (campsiteId, rating, author, text) => (addComment(campsiteId, rating, author, text))
+    addComment: (campsiteId, rating, author, text) => { // give the property the same name as the action creator
+        return addComment(campsiteId, rating, author, text); // The addComment action creator
+    }   // returns and object
 }
 
 class Main extends Component {
@@ -51,7 +57,6 @@ class Main extends Component {
                     campsite={this.props.campsites.filter(campsite => campsite.id === +match.params.campsiteId)[0]}
                     comments={this.props.comments.filter(comment => comment.campsiteId === +match.params.campsiteId)}
                     addComment={this.props.addComment}
-
                 />
             );
         }; 

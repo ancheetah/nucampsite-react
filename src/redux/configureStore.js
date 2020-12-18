@@ -1,3 +1,4 @@
+// The Redux store combines all the reducers
 import { createStore, combineReducers } from 'redux';
 import { Campsites } from './campsites';
 import { Comments } from './comments';
@@ -7,7 +8,6 @@ import { Promotions } from './promotions';
 // The Redux createStore() function requires that all your reducers 
 // be combined into ONE single root reducer to be used as an argument
 // to createStore().
-
 export const ConfigureStore = () => {
     //const store = createStore( Reducer, initialState );
     const store = createStore(
