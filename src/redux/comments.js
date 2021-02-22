@@ -9,9 +9,8 @@ import * as ActionTypes from './ActionTypes';
 
 export const Comments = (state = COMMENTS, action) => { 
 // the state is initialized with the comments array (an arr of obj)
-console.log("old state:", state);
+// console.log("old state:", state);
     switch (action.type) {
-
         case ActionTypes.ADD_COMMENT:   // addComment(campsiteId, rating, author, text)
             const comment = action.payload; //an object with the property identifiers campsiteId, rating, author, text
 
@@ -21,9 +20,8 @@ console.log("old state:", state);
 
             // Return the updated state to the redux store
             // The state here is a string array of comments
-            console.log("new state", state.concat(comment));
+            // console.log("new state", state.concat(comment));
             return state.concat(comment); 
-
         default:
             return state;
     }

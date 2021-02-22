@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Card, CardImg, CardText, CardBody, Button, Breadcrumb, BreadcrumbItem,
         Modal, ModalHeader, ModalBody, Label } from 'reactstrap';
 import {Control, LocalForm, Errors} from 'react-redux-form';
+import {Loading} from './LoadingComponent';
 
 //Input Validation Methods
 const maxLength = len => val => !val || (val.length <= len);
@@ -48,7 +49,26 @@ function RenderComments({comments, addComment, campsiteId}) {
 }
 
 function CampsiteInfo(props) {
-
+    if (props.isLoading) {
+        return (
+            <div className="container">
+                <div className="row">
+                    <Loading />
+                </div>
+            </div>
+        );
+    }
+    if (props.errMess) {
+        return (
+            <div className="container">
+                <div className="row">
+                    <div className="col">
+                        <h4>{props.errMess}</h4>
+                    </div>
+                </div>
+            </div>
+        );
+    }
     if (props.campsite) {
         return (
             <div class="container">
@@ -107,7 +127,7 @@ class CommentForm extends Component {
         // COMMENTS array
         
         // Why does "this" refer to an object {campsiteId, addComment} ???
-        console.log("in handleSubmit: ", this.props);
+        // console.log("in handleSubmit: ", this.props);
         this.props.addComment(this.props.campsiteId, values.rating, values.author, values.text);
 
     }
