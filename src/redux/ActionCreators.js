@@ -2,6 +2,7 @@
 // Action creators return an action object with the property identifiers "type" and "payload"
 // The "payload" (arbitrary name) contains the data you want to send to the state to update it
 import * as ActionTypes from './ActionTypes';
+import {CAMPSITES} from '../shared/campsites';
 
 // Define the addComment action creator
 // Its parameters are the part of the state the action will change
@@ -19,7 +20,32 @@ export const addComment = (campsiteId, rating, author, text) => ({
         text: text
         */
     }
+}); // Next step: Update the comments reducer to update its part of the state
+    // when the ADD_COMMENT action is dispatched to the store
+
+
+//===== Redux Thunk and Logger Actions =======
+
+// For now we simulate a server with a brief delay using setTimeout()
+export const fetchCampsites = () => dispatch => {
+
+    dispatch(campsitesLoading());
+
+    setTimeout(() => {
+        dispatch(addCampsites(CAMPSITES));
+    }, 2000); // 2000 ms = 2 sec
+}
+
+export const campsitesLoading = () => ({
+    type: ActionTypes.CAMPSITES_LOADING
 });
 
-// Next step: Update the comments reducer to update its part of the state
-// when the ADD_COMMENT action is dispatched to the store
+export const campsitesFailed = errMess => ({
+    type: ActionTypes.CAMPSITES_FAILED,
+    payload: errMess
+});
+
+export const addCampsites = campsites => ({
+    type: ActionTypes.ADD_CAMPSITES,
+    payload: campsites
+});

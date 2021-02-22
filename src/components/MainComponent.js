@@ -42,9 +42,10 @@ class Main extends Component {
     render() {
 
         const HomePage = () => {
+            console.log("Home Page Props: ", this.props);
             return (
                 <Home
-                    campsite={this.props.campsites.filter(campsite => campsite.featured)[0]}
+                    campsite={this.props.campsites.campsites.filter(campsite => campsite.featured)[0]}
                     promotion={this.props.promotions.filter(promotion => promotion.featured)[0]}
                     partner={this.props.partners.filter(partner => partner.featured)[0]}
                 />

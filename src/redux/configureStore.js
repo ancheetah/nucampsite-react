@@ -1,5 +1,8 @@
 // The Redux store combines all the reducers
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import logger from 'redux-logger';
+
 import { Campsites } from './campsites';
 import { Comments } from './comments';
 import { Partners } from './partners';
@@ -16,7 +19,8 @@ export const ConfigureStore = () => {
             comments: Comments,     // define how the data from the
             partners: Partners,     // reducers will be kept in the 
             promotions: Promotions  // overall state object tree
-        })
+        }),
+        applyMiddleware(thunk, logger)  //this is all you need to use logger but thunk needs more setup
     );
     return store;
 };
