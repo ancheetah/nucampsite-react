@@ -11,6 +11,7 @@ import Contact from './ContactComponent';
 import About from './AboutComponent';
 
 import { connect } from 'react-redux';
+import { actions } from 'react-redux-form';
 import { addComment, fetchCampsites } from '../redux/ActionCreators';
 
 // Move this data to reducer.js
@@ -33,7 +34,8 @@ const mapDispatchToProps = {
     addComment: (campsiteId, rating, author, text) => { // give the property the same name as the action creator
         return addComment(campsiteId, rating, author, text); // The addComment action creator
     },   // returns and object
-    fetchCampsites: () => (fetchCampsites())
+    fetchCampsites: () => (fetchCampsites()),
+    resetFeedbackForm: () => (actions.reset('feedbackForm')) // feedbackForm from configureStore.js
 }
 
 class Main extends Component {
@@ -76,7 +78,7 @@ class Main extends Component {
                     <Route path='/home' component={HomePage} />
                     <Route exact path='/directory' render={() => <Directory campsites={this.props.campsites} />} />
                     <Route path='/directory/:campsiteId' component={CampsiteWithId} />
-                    <Route exact path='/contactus' component={Contact} />
+                    <Route exact path='/contactus' render={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} />} />
                     <Route exact path='/aboutus' render={() => <About partners={this.props.partners} />} />
                     <Redirect to='/home' />
                 </Switch>
