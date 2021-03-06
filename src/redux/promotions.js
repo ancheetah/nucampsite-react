@@ -1,6 +1,6 @@
 // This reducer handles the promotions part of the state
 import * as ActionTypes from './ActionTypes';
-import { PROMOTIONS } from '../shared/promotions';
+// import { PROMOTIONS } from '../shared/promotions';
 
 export const Promotions = (state = { isLoading: true,
                                         errMess: null,
