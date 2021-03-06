@@ -1,11 +1,24 @@
-import { CAMPSITES } from '../shared/campsites';
+// import { CAMPSITES } from '../shared/campsites';
+import * as ActionTypes from './ActionTypes';
 
 // Create a reducer which will take a section of the state
 // and update it with a Redux action object
 // Initialize the state with CAMPSITES if it doesn't exist
-export const Campsites = (state = CAMPSITES, action) => {
-    switch (action.type) {
-        default:
-            return state;
-    }
-};
+export const Campsites = (
+    state = {
+        isLoading: true,
+        errMess: null,
+        campsites: []
+    }, 
+    action) => {
+        switch (action.type) {
+            case ActionTypes.ADD_CAMPSITES:
+                return {...state, isLoading: false, errMess: null, campsites: action.payload};
+            case ActionTypes.CAMPSITES_LOADING:
+                return {...state, isLoading: true, errMess: null, campsites: []};
+            case ActionTypes.CAMPSITES_FAILED:
+                return {...state, isLoading: false, errMess: action.payload};
+            default:
+                return state;
+        }
+    };

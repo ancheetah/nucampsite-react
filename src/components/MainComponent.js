@@ -11,13 +11,9 @@ import Contact from './ContactComponent';
 import About from './AboutComponent';
 
 import { connect } from 'react-redux';
-import {addComment} from '../redux/ActionCreators';
-
-// Move this data to reducer.js
-// import { CAMPSITES } from '../shared/campsites';
-// import { COMMENTS } from '../shared/comments';
-// import { PARTNERS } from '../shared/partners';
-// import { PROMOTIONS } from '../shared/promotions';
+import { actions } from 'react-redux-form';
+import { postComment, fetchCampsites, fetchComments, fetchPromotions } from '../redux/ActionCreators';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 const mapStateToProps = state => {
     return {
@@ -30,22 +26,35 @@ const mapStateToProps = state => {
 
 // Implement the ADD_COMMENT action with mapDispatchToProps then pass it to connect() at end of module
 const mapDispatchToProps = {
-    addComment: (campsiteId, rating, author, text) => { // give the property the same name as the action creator
-        return addComment(campsiteId, rating, author, text); // The addComment action creator
-    }   // returns and object
+    postComment: (campsiteId, rating, author, text) => { // give the property the same name as the action creator
+        return postComment(campsiteId, rating, author, text); 
+    },   // returns and object
+    fetchCampsites: () => (fetchCampsites()),
+    resetFeedbackForm: () => (actions.reset('feedbackForm')), // feedbackForm from configureStore.js
+    fetchComments: () => (fetchComments()),
+    fetchPromotions: () => (fetchPromotions())
 }
 
 class Main extends Component {
 
+    componentDidMount() {
+        this.props.fetchCampsites();
+        this.props.fetchComments();
+        this.props.fetchPromotions();
+    }
+
     // No constructor needed to hold state. Redux will hold state in the store
-
     render() {
-
         const HomePage = () => {
+            console.log("Home Page Props: ", this.props);
             return (
                 <Home
-                    campsite={this.props.campsites.filter(campsite => campsite.featured)[0]}
-                    promotion={this.props.promotions.filter(promotion => promotion.featured)[0]}
+                    campsite={this.props.campsites.campsites.filter(campsite => campsite.featured)[0]}
+                    campsitesLoading={this.props.campsites.isLoading}
+                    campsitesErrMess={this.props.campsites.errMess}
+                    promotion={this.props.promotions.promotions.filter(promotion => promotion.featured)[0]}
+                    promotionLoading={this.props.promotions.isLoading}
+                    promotionErrMess={this.props.promotions.errMess}
                     partner={this.props.partners.filter(partner => partner.featured)[0]}
                 />
             );
@@ -54,9 +63,12 @@ class Main extends Component {
         const CampsiteWithId = ({match}) => {
             return (
                 <CampsiteInfo 
-                    campsite={this.props.campsites.filter(campsite => campsite.id === +match.params.campsiteId)[0]}
-                    comments={this.props.comments.filter(comment => comment.campsiteId === +match.params.campsiteId)}
-                    addComment={this.props.addComment}
+                    campsite={this.props.campsites.campsites.filter(campsite => campsite.id === +match.params.campsiteId)[0]}
+                    isLoading={this.props.campsites.isLoading}
+                    errMess={this.props.campsites.errMess}
+                    comments={this.props.comments.comments.filter(comment => comment.campsiteId === +match.params.campsiteId)}
+                    commentsErrMess={this.props.comments.errMess}
+                    postComment={this.props.postComment}
                 />
             );
         }; 
@@ -64,14 +76,18 @@ class Main extends Component {
         return (
             <div>
                 <Header />
-                <Switch>
-                    <Route path='/home' component={HomePage} />
-                    <Route exact path='/directory' render={() => <Directory campsites={this.props.campsites} />} />
-                    <Route path='/directory/:campsiteId' component={CampsiteWithId} />
-                    <Route exact path='/contactus' component={Contact} />
-                    <Route exact path='/aboutus' render={() => <About partners={this.props.partners} />} />
-                    <Redirect to='/home' />
-                </Switch>
+                <TransitionGroup>
+                    <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>
+                        <Switch>
+                            <Route path='/home' component={HomePage} />
+                            <Route exact path='/directory' render={() => <Directory campsites={this.props.campsites} />} />
+                            <Route path='/directory/:campsiteId' component={CampsiteWithId} />
+                            <Route exact path='/contactus' render={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} />} />
+                            <Route exact path='/aboutus' render={() => <About partners={this.props.partners} />} />
+                            <Redirect to='/home' />
+                        </Switch>
+                    </CSSTransition>
+                </TransitionGroup>
                 <Footer />
             </div>
         );
