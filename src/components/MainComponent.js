@@ -12,13 +12,7 @@ import About from './AboutComponent';
 
 import { connect } from 'react-redux';
 import { actions } from 'react-redux-form';
-import { addComment, fetchCampsites, fetchComments, fetchPromotions } from '../redux/ActionCreators';
-
-// Move this data to reducer.js
-// import { CAMPSITES } from '../shared/campsites';
-// import { COMMENTS } from '../shared/comments';
-// import { PARTNERS } from '../shared/partners';
-// import { PROMOTIONS } from '../shared/promotions';
+import { postComment, fetchCampsites, fetchComments, fetchPromotions } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
     return {
@@ -31,8 +25,8 @@ const mapStateToProps = state => {
 
 // Implement the ADD_COMMENT action with mapDispatchToProps then pass it to connect() at end of module
 const mapDispatchToProps = {
-    addComment: (campsiteId, rating, author, text) => { // give the property the same name as the action creator
-        return addComment(campsiteId, rating, author, text); // The addComment action creator
+    postComment: (campsiteId, rating, author, text) => { // give the property the same name as the action creator
+        return postComment(campsiteId, rating, author, text); 
     },   // returns and object
     fetchCampsites: () => (fetchCampsites()),
     resetFeedbackForm: () => (actions.reset('feedbackForm')), // feedbackForm from configureStore.js
@@ -73,7 +67,7 @@ class Main extends Component {
                     errMess={this.props.campsites.errMess}
                     comments={this.props.comments.comments.filter(comment => comment.campsiteId === +match.params.campsiteId)}
                     commentsErrMess={this.props.comments.errMess}
-                    addComment={this.props.addComment}
+                    postComment={this.props.postComment}
                 />
             );
         }; 

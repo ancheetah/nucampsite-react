@@ -3,27 +3,6 @@
 // The "payload" (arbitrary name) contains the data you want to send to the state to update it
 import * as ActionTypes from './ActionTypes';
 import { baseUrl } from '../shared/baseUrl';
-// import {CAMPSITES} from '../shared/campsites';
-
-// Define the addComment action creator
-// Its parameters are the part of the state the action will change
-export const addComment = (campsiteId, rating, author, text) => ({
-    type: ActionTypes.ADD_COMMENT,  // match with name in ActionTypes.js
-    payload: {
-        campsiteId,    // this is ES6 notation equivalent to campsiteId: campsiteId
-        rating,        // can use this syntax when value name is same as property name
-        author,
-        text
-        /*
-        campsiteId: campsiteId,
-        rating: rating,
-        author: author,
-        text: text
-        */
-    }
-}); // Next step: Update the comments reducer to update its part of the state
-    // when the ADD_COMMENT action is dispatched to the store
-
 
 //===== Redux Thunk and Logger Actions =======
 
@@ -100,6 +79,47 @@ export const addComments = comments => ({
     type: ActionTypes.ADD_COMMENTS,
     payload: comments
 });
+
+export const addComment = comment => ({
+    type: ActionTypes.ADD_COMMENT,
+    payload: comment
+});
+
+export const postComment = (campsiteId, rating, author, text) => dispatch => {
+    
+    const newComment = {
+        campsiteId: campsiteId,
+        rating: rating,
+        author: author,
+        text: text
+    };
+    newComment.date = new Date().toISOString();
+
+    return fetch(baseUrl + 'comments', {
+            method: "POST",
+            body: JSON.stringify(newComment),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => {
+                if (response.ok) {
+                    return response;
+                } else {
+                    const error = new Error(`Error ${response.status}: ${response.statusText}`);
+                    error.response = response;
+                    throw error;
+                }
+            },
+            error => { throw error; }
+        )
+        .then(response => response.json())
+        .then(response => dispatch(addComment(response)))
+        .catch(error => {
+            console.log('post comment', error.message);
+            alert('Your comment could not be posted\nError: ' + error.message);
+        });
+};
 
 export const fetchPromotions = () => dispatch => {
     dispatch(promotionsLoading());

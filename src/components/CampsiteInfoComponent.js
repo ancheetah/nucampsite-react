@@ -23,7 +23,7 @@ function RenderCampsite({campsite}) {
         );
     }
 
-function RenderComments({comments, addComment, campsiteId}) {
+function RenderComments({comments, postComment, campsiteId}) {
     if (comments) {
         return (
             <div className="col-md-5 m-1">
@@ -40,7 +40,7 @@ function RenderComments({comments, addComment, campsiteId}) {
             }
             
             <br />
-            <CommentForm campsiteId={campsiteId} addComment={addComment} />
+            <CommentForm campsiteId={campsiteId} postComment={postComment} />
             </div>
         );
     }
@@ -87,7 +87,7 @@ function CampsiteInfo(props) {
                     <RenderCampsite campsite={props.campsite} />
                     <RenderComments 
                         comments={props.comments}
-                        addComment={props.addComment}
+                        postComment={props.postComment}
                         campsiteId={props.campsite.id}
                     />
                 </div>
@@ -120,17 +120,7 @@ class CommentForm extends Component {
 
     handleSubmit(values) {
         this.toggleModal();
-
-        // To make the ADD_COMMENT action work, we can now pass in
-        // the comment form input values that are collected when the
-        // user clicks the submit button. This action will display the new
-        // comment on the page (temporarily for now) by appending it to the
-        // COMMENTS array
-        
-        // Why does "this" refer to an object {campsiteId, addComment} ???
-        // console.log("in handleSubmit: ", this.props);
-        this.props.addComment(this.props.campsiteId, values.rating, values.author, values.text);
-
+        this.props.postComment(this.props.campsiteId, values.rating, values.author, values.text);
     }
 
     render() {

@@ -1,6 +1,4 @@
 // This reducer handles the comments part of the state
-
-import { COMMENTS } from '../shared/comments';
 import * as ActionTypes from './ActionTypes';
 
 // The comments reducer takes the comments part of the state and
@@ -19,10 +17,6 @@ export const Comments = (state = { errMess: null, comments: []}, action) => {
 
         case ActionTypes.ADD_COMMENT:   // addComment(campsiteId, rating, author, text)
             const comment = action.payload; //an object with the property identifiers campsiteId, rating, author, text
-
-            // Add a couple more properties called id and length
-            comment.id = state.comments.length;  // length of comments array
-            comment.date = new Date().toISOString();
 
             // Return the updated state to the redux store
             // The state here is a string array of comments
