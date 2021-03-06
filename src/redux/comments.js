@@ -7,21 +7,27 @@ import * as ActionTypes from './ActionTypes';
 // a Redux action object {type, payload} and makes some change to
 // the state before returning a new, updated (comments) state
 
-export const Comments = (state = COMMENTS, action) => { 
+export const Comments = (state = { errMess: null, comments: []}, action) => { 
 // the state is initialized with the comments array (an arr of obj)
 // console.log("old state:", state);
     switch (action.type) {
+        case ActionTypes.ADD_COMMENTS:
+            return {...state, errMess: null, comments: action.payload};
+
+        case ActionTypes.COMMENTS_FAILED:
+            return {...state, errMess: action.payload};
+
         case ActionTypes.ADD_COMMENT:   // addComment(campsiteId, rating, author, text)
             const comment = action.payload; //an object with the property identifiers campsiteId, rating, author, text
 
             // Add a couple more properties called id and length
-            comment.id = state.length;  // length of comments array
+            comment.id = state.comments.length;  // length of comments array
             comment.date = new Date().toISOString();
 
             // Return the updated state to the redux store
             // The state here is a string array of comments
             // console.log("new state", state.concat(comment));
-            return state.concat(comment); 
+            return {...state, comments: state.comments.concat(comment)}; 
         default:
             return state;
     }
