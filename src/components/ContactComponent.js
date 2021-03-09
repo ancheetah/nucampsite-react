@@ -30,40 +30,11 @@ class Contact extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    //This event handler is fired when a user enters an input field then leaves it (loses focus)
-    //When hadle blur is triggered it will change the field's "touched" state to true
-    //Add this event handler to every form field (i.e. <input>) you want to track
-    //The "field" parameter accepts a string with the name of the field (i.e. value of "name" attribute of the <input> element)
-    //Binding using arrow function syntax. Why? We're not passing an event object here but rather a string
-    // handleBlur = (field) => {
-    //     return () => { 
-    //         this.setState({
-    //             touched: {...this.state.touched, [field]: true} //changes only one of the properties in "touched"
-    //         });
-    //     }
-    // }
-
-
-    //Update the state of the form field 
-    // handleInputChange(event) {
-    //     const target = event.target;    //the <input> element
-    //     const name = target.name;       //the value of <input>'s "name" attribute    
-
-    //     //Is <input> a checkbox? If yes, then return <input>'s checked attribute (boolean) to get the user's choice
-    //     //If no then use <input>'s value attribute to get the text that the user entered
-    //     const value = target.type === 'checkbox' ? target.checked : target.value;   //target.type is the value of <input>'s "type" attribute (i.e. "button", "checkbox", "color", "month", etc.)
-    
-    //     //Create an object with a computed property name using the value of <input>'s name attribute
-    //     //Update the state with the user's input -> sets firstName, lastName, phoneNum, email, agree, contactType, or feedback to the user's input value
-    //     this.setState({
-    //         [name]: value
-    //     });
-    // }
-
     //Log current state to the console
     handleSubmit(values) {
-        console.log('Current state is: ' + JSON.stringify(values));
-        alert('Current state is: ' + JSON.stringify(values));
+        // console.log('Current state is: ' + JSON.stringify(values));
+        // alert('Current state is: ' + JSON.stringify(values));
+        this.props.postFeedback(values);
         this.props.resetFeedbackForm();
     }
 
